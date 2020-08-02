@@ -1,31 +1,67 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
-const url = "https://cafef.vn";
+/* eslint-disable func-names */
+import cheerio from 'cheerio';
+import config from '../config';
+import { fetchData } from '../util/request';
+import { sendToQueue } from '../util/queue';
 
-const keywords = ['hoaphat', 'Hòa Phát', 'thép', 'thep', 'evfta', 'Mazda6', 'EVFTA'];
+const pushData = async (data) => {
+  sendToQueue({ ...data });
+};
 
-fetchData(url).then((res) => {
-  const html = res.data;
-  const $ = cheerio.load(html);
-  const statsTable = $("h3");
-  statsTable.each(function () {
-    keywords.forEach(word => {
-      const matched = $(this).find('a').attr('title').match(word);
-      if(matched) {
-        console.log('a href---------', `https://cafef.vn${$(this).find('a').attr('href')}`);
+const getATags = (cheerioStatic) => {
+  const bodyContent = cheerioStatic('body');
+  return bodyContent.find('a');
+};
+
+const cafefHompagePage = () => {
+  // Crawl from page 1 to 4.
+  const originLink = `${config.cafefDomain}`;
+  fetchData(originLink).then((res) => {
+    const html = res.data;
+    const cheerioStatic = cheerio.load(html);
+    const aTags = getATags(cheerioStatic);
+    aTags.each(function () {
+      const title = cheerioStatic(this).text();
+      if (title) {
+        config.keywords.forEach((word) => {
+          const matched = title.match(word);
+          if (matched) {
+            const shortDescription = cheerioStatic(this).find('a').text();
+            const link = cheerioStatic(this).find('a').attr('href');
+            // Handle push data to message queue
+            pushData({ link, title, shortDescription, originLink });
+          }
+        });
       }
-    })
+    });
   });
-});
+};
 
-async function fetchData(url) {
-  console.log("Crawling data...");
-  // make http call to url
-  let response = await axios(url).catch((err) => console.log(err));
-
-  if (response.status !== 200) {
-    console.log("Error occurred while fetching data");
-    return;
+const cafefSubPageCrawler = (domain) => {
+  for (let i = 0; i < 4; i++) {
+    const originLink = `${domain}trang-${i + 1}.chn`;
+    fetchData(originLink).then((res) => {
+      const html = res.data;
+      const cheerioStatic = cheerio.load(html);
+      const aTags = getATags(cheerioStatic);
+      aTags.each(function () {
+        const title = cheerioStatic(this).text();
+        if (title) {
+          config.keywords.forEach((word) => {
+            const matched = title.match(word);
+            if (matched) {
+              const shortDescription = cheerioStatic(this).find('a').text();
+              const link = cheerioStatic(this).find('a').attr('href');
+              // Handle push data to message queue
+              pushData({ link, title, shortDescription, originLink });
+            }
+          });
+        }
+      });
+    });
   }
-  return response;
-}
+};
+
+cafefSubPageCrawler(config.cafeChungKhoanDomain);
+cafefSubPageCrawler(config.cafeThiTruongDomain);
+cafefHompagePage();

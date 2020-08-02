@@ -1,36 +1,40 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
-const url = "https://vietstock.vn";
+/* eslint-disable func-names */
+import cheerio from 'cheerio';
+import config from '../config';
+import { fetchData } from '../util/request';
+import { sendToQueue } from '../util/queue';
 
-const keywords = ["Dragon"];
+const pushData = async (data) => {
+  sendToQueue({ ...data });
+};
 
-fetchData(url).then((res) => {
-  const html = res.data;
-  const $ = cheerio.load(html);
-  const statsTable = $("h1.title, h4.title, li>h5>a");
-  statsTable.each(function () {
-    const element = $(this).find("a");
-    keywords.forEach((word) => {
-      const title = element.text();
+const getATags = (cheerioStatic) => {
+  const bodyContent = cheerioStatic('body');
+  return bodyContent.find('a');
+};
+
+const vietstockHompagePage = () => {
+  const originLink = `${config.vietstockDomain}`;
+  fetchData(originLink).then((res) => {
+    const html = res.data;
+    const cheerioStatic = cheerio.load(html);
+    const aTags = getATags(cheerioStatic);
+    aTags.each(function () {
+      const title = cheerioStatic(this).text();
+      console.log('title------', title);
       if (title) {
-        const matched = title.match(word);
-        if (matched) {
-          const link = `https://vietstock.vn${element.attr("href")}`;
-          console.log("link========", link);
-        }
+        config.keywords.forEach((word) => {
+          const matched = title.match(word);
+          if (matched) {
+            const shortDescription = cheerioStatic(this).find('a').text();
+            const link = cheerioStatic(this).find('a').attr('href');
+            // Handle push data to message queue
+            pushData({ link, title, shortDescription, originLink });
+          }
+        });
       }
     });
   });
-});
+};
 
-async function fetchData(url) {
-  console.log("Crawling data...");
-  // make http call to url
-  let response = await axios(url).catch((err) => console.log(err));
-
-  if (response.status !== 200) {
-    console.log("Error occurred while fetching data");
-    return;
-  }
-  return response;
-}
+vietstockHompagePage();

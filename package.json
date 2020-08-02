@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec babel-node src/index.js",
     "crawl:cafef": "nodemon --exec babel-node src/service/cafef.js",
     "crawl:vnexpress": "nodemon --exec babel-node src/service/vnexpress.js",
     "crawl:vietstock": "nodemon --exec babel-node src/service/vietstock.js"
@@ -27,9 +28,20 @@
     "@babel/preset-env": "^7.11.0"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.8.0",
+    "amqplib": "^0.6.0",
     "axios": "^0.19.2",
+    "babel-eslint": "^10.1.0",
     "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.2.0",
+    "esdoc": "^1.1.0",
+    "esdoc-es7-plugin": "0.0.3",
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^5.0.1",
+    "eslint-plugin-async-await": "0.0.0",
+    "eslint-plugin-import": "^1.8.1",
+    "eslint-scope": "^5.0.0",
     "nodemon": "^2.0.4"
   }
 }

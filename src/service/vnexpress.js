@@ -1,42 +1,68 @@
-import config from "../config";
-import axios from "axios";
-import cheerio from "cheerio";
-const url = config.expressDomain;
+/* eslint-disable func-names */
+import cheerio from 'cheerio';
+import config from '../config';
+import { fetchData } from '../util/request';
+import { sendToQueue } from '../util/queue';
 
-const keywords = [
-  "hoaphat",
-  "Hòa Phát",
-  "thép",
-  "thep",
-  "evfta",
-  "Mazda6",
-  "EVFTA",
-  "nCoV",
-];
+const getDescription = (cheerioStatic) => {
+  const bodyContent = cheerioStatic('body');
+  return bodyContent.find('.description');
+};
 
-fetchData(url).then((res) => {
-  const html = res.data;
-  const $ = cheerio.load(html);
-  const statsTable = $(".title-news");
-  statsTable.each(function (stat) {
-    keywords.forEach((word) => {
-      const matched = $(this).find("a").attr("title").match(word);
-      if (matched) {
-        const link = $(this).find("a").attr("href");
-        console.log("link------", link);
-      }
+const pushData = async (data) => {
+  sendToQueue({ ...data });
+};
+
+const vnExpressKinhDoanhPage = () => {
+  // Crawl from page 1 to 4.
+  for (let i = 0; i <= 3; i++) {
+    const originLink = `${config.vnexpressKinhdoanhPage}/p${i + 1}`;
+    fetchData(originLink).then((res) => {
+      const html = res.data;
+      const cheerioStatic = cheerio.load(html);
+      const description = getDescription(cheerioStatic);
+      description.each(function () {
+        const title = cheerioStatic(this).prev().text();
+        if (title) {
+          config.keywords.forEach((word) => {
+            const matched = title.match(word);
+            if (matched) {
+              const shortDescription = cheerioStatic(this).find('a').text();
+              const link = cheerioStatic(this).find('a').attr('href');
+              // Handle push data to message queue
+              pushData({ link, title, shortDescription, originLink });
+            }
+          });
+        }
+      });
     });
-  });
-});
-
-async function fetchData(url) {
-  console.log("Crawling data...");
-  // make http call to url
-  let response = await axios(url).catch((err) => console.log(err));
-
-  if (response.status !== 200) {
-    console.log("Error occurred while fetching data");
-    return;
   }
-  return response;
-}
+};
+
+const vnExpressChungKhoanPage = () => {
+  for (let i = 0; i <= 3; i++) {
+    const originLink = `${config.vnexpressKinhdoanhPage}/p${i + 1}`;
+    fetchData(originLink).then((res) => {
+      const html = res.data;
+      const cheerioStatic = cheerio.load(html);
+      const description = getDescription(cheerioStatic);
+      description.each(function () {
+        const title = cheerioStatic(this).prev().text();
+        if (title) {
+          config.keywords.forEach((word) => {
+            const matched = title.match(word);
+            if (matched) {
+              const shortDescription = cheerioStatic(this).find('a').text();
+              const link = cheerioStatic(this).find('a').attr('href');
+              // Handle push data to message queue
+              pushData({ link, title, shortDescription, originLink });
+            }
+          });
+        }
+      });
+    });
+  }
+};
+
+vnExpressKinhDoanhPage();
+vnExpressChungKhoanPage();
