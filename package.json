@@ -1,0 +1,35 @@
+{
+  "name": "crawler-service-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "crawl:cafef": "nodemon --exec babel-node src/service/cafef.js",
+    "crawl:vnexpress": "nodemon --exec babel-node src/service/vnexpress.js",
+    "crawl:vietstock": "nodemon --exec babel-node src/service/vietstock.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dungtruongtien/crawler-service-worker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dungtruongtien/crawler-service-worker/issues"
+  },
+  "homepage": "https://github.com/dungtruongtien/crawler-service-worker#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4"
+  }
+}
