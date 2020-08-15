@@ -27,7 +27,7 @@ const cafefHompagePage = () => {
           const matched = title.match(word);
           if (matched) {
             const shortDescription = cheerioStatic(this).find('a').text();
-            const link = cheerioStatic(this).find('a').attr('href');
+            const link = cheerioStatic(this).attr('href');
             // Handle push data to message queue
             pushData({ link, title, shortDescription, originLink });
           }
