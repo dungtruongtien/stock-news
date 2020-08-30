@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import { format } from 'date-fns';
 import config from '../config';
 import { fetchData } from '../util/request';
 import { sendToQueue } from '../util/queue';
