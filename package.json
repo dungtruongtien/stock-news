@@ -10,7 +10,8 @@
     "crawl:vnexpress": "nodemon --exec babel-node src/service/vnexpress.js",
     "crawl:vietstock": "nodemon --exec babel-node src/service/vietstock.js",
     "crawl:ndh": "nodemon --exec babel-node src/service/ndh.js",
-    "crawl:vtc": "nodemon --exec babel-node src/service/vtc.js"
+    "crawl:vtv": "nodemon --exec babel-node src/service/vtv.js",
+    "crawl:vietnambiz": "nodemon --exec babel-node src/service/vietnambiz.js"
   },
   "repository": {
     "type": "git",

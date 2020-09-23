@@ -4,7 +4,7 @@ import config from '../config';
 import { fetchData } from '../util/request';
 import { sendToQueue } from '../util/queue';
 
-const homepageLink = `${config.vtcDomain}`;
+const homepageLink = `${config.cafefDomain}`;
 
 const convertStrToCreatedDate = (data) => {
   const year = data.substring(0, 4);
@@ -70,7 +70,15 @@ export const cafefSubPageCrawler = (domain) => {
               const link = aTag.attr('href');
               const image = aTag.find('img').attr('src');
               // Handle push data to message queue
-              pushData({ link: `${homepageLink}${link}`, image, title, shortDescription, originLink, createdDate });
+              pushData({
+                publishedDate: new Date(),
+                link: `${homepageLink}${link}`,
+                image,
+                title,
+                shortDescription,
+                originLink,
+                createdDate
+              });
             }
           });
         }

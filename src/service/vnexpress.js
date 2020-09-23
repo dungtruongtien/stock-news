@@ -30,7 +30,7 @@ export const vnExpressKinhDoanhPage = () => {
               const shortDescription = cheerioStatic(this).find('a').text();
               const link = cheerioStatic(this).find('a').attr('href');
               // Handle push data to message queue
-              pushData({ link, title, shortDescription, originLink });
+              pushData({ publishedDate: new Date(), link, title, shortDescription, originLink });
             }
           });
         }

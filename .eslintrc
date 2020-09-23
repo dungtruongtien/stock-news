@@ -13,6 +13,7 @@
         "consistent-return": 1,
         "max-len": ["error", 120],
         "no-param-reassign": 0,
-        "import/prefer-default-export": 0
+        "import/prefer-default-export": 0,
+        "func-names": 0
     }
 }

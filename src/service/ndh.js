@@ -20,6 +20,7 @@ export const ndhNews = async (cateId) => {
       const matched = config.keywords.find((keyword) => !!title.match(keyword));
       if (matched) {
         pushData({
+          publishedDate: new Date(),
           link: `${originLink}${share_url}`,
           createdDate: new Date(publish_time * 1000),
           title,

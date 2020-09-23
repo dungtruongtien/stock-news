@@ -4,9 +4,8 @@ import config from '../config';
 import { fetchData } from '../util/request';
 import { sendToQueue } from '../util/queue';
 
-const homepageLink = `${config.vtcDomain}`;
-const originLink = 'https://vtv.vn/timeline/90/';
-// https://vtv.vn/timeline/90/trang-4.htm
+const homepageLink = `${config.vtvDomain}`;
+const originLink = 'https://vtv.vn/timeline';
 
 const convertStrToCreatedDate = (data) => {
   const year = data.substring(0, 4);
@@ -24,9 +23,9 @@ const pushData = async (data) => {
   sendToQueue({ ...data });
 };
 
-export const vtcKinhTe = async () => {
+export const vtvNews = async (cateId) => {
   for (let i = 0; i < 20; i++) {
-    const news = await fetchData(`${originLink}/trang-${i + 1}.htm`);
+    const news = await fetchData(`${originLink}/${cateId}/trang-${i + 1}.htm`);
     const html = news.data;
     const cheerioStatic = cheerio.load(html);
     const liTags = getLiTags(cheerioStatic);
@@ -43,7 +42,15 @@ export const vtcKinhTe = async () => {
             const link = aTag.attr('href');
             const image = aTag.find('img').attr('src');
               // Handle push data to message queue
-            pushData({ link: `${homepageLink}${link}`, image, title, shortDescription, originLink, createdDate });
+            pushData({
+              publishedDate: new Date(),
+              link: `${homepageLink}${link}`,
+              image,
+              title,
+              shortDescription,
+              originLink,
+              createdDate
+            });
           }
         });
       }
