@@ -13,7 +13,7 @@ const pushData = async (data) => {
   sendToQueue({ ...data });
 };
 
-const vnExpressKinhDoanhPage = () => {
+export const vnExpressKinhDoanhPage = () => {
   // Crawl from page 1 to 4.
   for (let i = 0; i <= 3; i++) {
     const originLink = `${config.vnexpressKinhdoanhPage}/p${i + 1}`;
@@ -39,7 +39,7 @@ const vnExpressKinhDoanhPage = () => {
   }
 };
 
-const vnExpressChungKhoanPage = () => {
+export const vnExpressChungKhoanPage = () => {
   for (let i = 0; i <= 3; i++) {
     const originLink = `${config.vnexpressKinhdoanhPage}/p${i + 1}`;
     fetchData(originLink).then((res) => {

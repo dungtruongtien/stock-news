@@ -5,6 +5,7 @@ export default {
   vnexpressChungkhoanPage: process.env.VNEXPRESS_CHUNGKHOAN_DOMAIN || '',
   vietstockDomain: process.env.VIETSTOCK_DOMAIN || '',
   cafefDomain: process.env.CAFEF_DOMAIN || '',
+  vtcDomain: process.env.VTC_DOMAIN || '',
   cafeChungKhoanDomain: process.env.CAFEF_CHUNGKHOAN_DOMAIN || '',
   cafeThiTruongDomain: process.env.CAFEF_THITRUONG_DOMAIN || '',
   keywords: process.env.KEYWORDS ? process.env.KEYWORDS.split('|') : ['']

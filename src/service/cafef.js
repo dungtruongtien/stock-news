@@ -4,7 +4,7 @@ import config from '../config';
 import { fetchData } from '../util/request';
 import { sendToQueue } from '../util/queue';
 
-const homepageLink = `${config.cafefDomain}`;
+const homepageLink = `${config.vtcDomain}`;
 
 const convertStrToCreatedDate = (data) => {
   const year = data.substring(0, 4);
@@ -27,7 +27,7 @@ const getATags = (cheerioStatic) => {
   return bodyContent.find('a');
 };
 
-const cafefHompagePage = () => {
+export const cafefHompagePage = () => {
   // Crawl from page 1 to 4.
   fetchData(homepageLink).then((res) => {
     const html = res.data;
@@ -50,7 +50,7 @@ const cafefHompagePage = () => {
   });
 };
 
-const cafefSubPageCrawler = (domain) => {
+export const cafefSubPageCrawler = (domain) => {
   for (let i = 0; i < 20; i++) {
     const originLink = `${domain}trang-${i + 1}.chn`;
     fetchData(originLink).then((res) => {
@@ -78,7 +78,3 @@ const cafefSubPageCrawler = (domain) => {
     });
   }
 };
-
-cafefSubPageCrawler(config.cafeChungKhoanDomain);
-cafefSubPageCrawler(config.cafeThiTruongDomain);
-cafefHompagePage();

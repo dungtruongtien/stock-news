@@ -13,7 +13,7 @@ const getATags = (cheerioStatic) => {
   return bodyContent.find('a');
 };
 
-const vietstockHompagePage = () => {
+export const vietstockHompagePage = () => {
   const originLink = `${config.vietstockDomain}`;
   fetchData(originLink).then((res) => {
     const html = res.data;
