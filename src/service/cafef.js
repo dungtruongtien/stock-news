@@ -22,37 +22,9 @@ const getLiTags = (cheerioStatic) => {
   return bodyContent.find('.tlitem');
 };
 
-const getATags = (cheerioStatic) => {
-  const bodyContent = cheerioStatic('body');
-  return bodyContent.find('a');
-};
-
-export const cafefHompagePage = () => {
-  // Crawl from page 1 to 4.
-  fetchData(homepageLink).then((res) => {
-    const html = res.data;
-    const cheerioStatic = cheerio.load(html);
-    const aTags = getATags(cheerioStatic);
-    aTags.each(function () {
-      const title = cheerioStatic(this).text();
-      if (title) {
-        config.keywords.forEach((word) => {
-          const matched = title.match(word);
-          if (matched) {
-            const link = cheerioStatic(this).attr('href');
-            const shortDescription = cheerioStatic(this).find('a').text();
-            // Handle push data to message queue
-            pushData({ link: `${homepageLink}${link}`, title, shortDescription, originLink: homepageLink });
-          }
-        });
-      }
-    });
-  });
-};
-
-export const cafefSubPageCrawler = (domain) => {
-  for (let i = 0; i < 20; i++) {
-    const originLink = `${domain}trang-${i + 1}.chn`;
+export const cafefNews = (domain) => {
+  for (let i = 1; i <= 10; i++) {
+    const originLink = `${domain}trang-${i}.chn`;
     fetchData(originLink).then((res) => {
       const html = res.data;
       const cheerioStatic = cheerio.load(html);

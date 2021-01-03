@@ -24,8 +24,8 @@ const pushData = async (data) => {
 };
 
 export const vtvNews = async (cateId) => {
-  for (let i = 0; i < 20; i++) {
-    const news = await fetchData(`${originLink}/${cateId}/trang-${i + 1}.htm`);
+  for (let i = 1; i <= 1; i++) {
+    const news = await fetchData(`${originLink}/${cateId}/trang-${i}.htm`);
     const html = news.data;
     const cheerioStatic = cheerio.load(html);
     const liTags = getLiTags(cheerioStatic);

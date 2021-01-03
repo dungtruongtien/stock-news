@@ -12,14 +12,14 @@ import {
   VTV_TAICHINH_CATE,
   VTV_THITRUONG_CATE
 } from './config/constant';
-import { cafefSubPageCrawler } from './service/cafef';
+import { cafefNews } from './service/cafef';
 import { ndhNews } from './service/ndh';
 import { vietnambizChungKhoan } from './service/vietnambiz';
 import { vietstockChungKhoan } from './service/vietstock';
 import { vtvNews } from './service/vtv';
 
-cafefSubPageCrawler(config.cafeChungKhoanDomain);
-cafefSubPageCrawler(config.cafeThiTruongDomain);
+cafefNews(config.cafeChungKhoanDomain);
+cafefNews(config.cafeThiTruongDomain);
 
 
 ndhNews(NDH_DOANHNGHIEP_CATE);

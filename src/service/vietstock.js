@@ -17,7 +17,7 @@ const getSectionTag = (cheerioStatic) => {
 
 export const vietstockChungKhoan = (channelId) => {
   const originLink = 'https://vietstock.vn/chung-khoan.htm';
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= 1; i++) {
     fetchData(apiLink, { method: 'POST', data: { channelID: channelId, page: i } }).then((res) => {
       const html = res.data;
       const cheerioStatic = cheerio.load(html);
