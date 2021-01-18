@@ -15,7 +15,7 @@ const getNewsOnTopPage = (cheerioStatic) => {
 
 export const vietnambizChungKhoan = (apiLink) => {
   const originLink = 'https://vietnambiz.vn';
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= 10; i++) {
     fetchData(`${originLink}/${apiLink}/trang-${i}.htm`).then((res) => {
       const html = res.data;
       const cheerioStatic = cheerio.load(html);

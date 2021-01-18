@@ -14,4 +14,5 @@ export const VIETSTOCK_GIAODICHNOIBO_CHANNEL_ID = 739;
 
 export const CHUNG_KHOAN_LINK = 'chung-khoan';
 export const DOANH_NGHIEP_LINK = 'doanh-nghiep';
+export const TAI_CHINH_LINK = 'tai-chinh';
 export const CHUNG_KHOAN_GIAO_DICH_LON_LINK = 'chung-khoan/giao-dich-lon';
