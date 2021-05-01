@@ -23,7 +23,7 @@ const getLiTags = (cheerioStatic) => {
 };
 
 export const cafefNews = (domain) => {
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 5; i++) {
     const originLink = `${domain}trang-${i}.chn`;
     fetchData(originLink).then((res) => {
       const html = res.data;
