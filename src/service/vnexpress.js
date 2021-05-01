@@ -15,7 +15,7 @@ const pushData = async (data) => {
 
 export const vnExpressKinhDoanhPage = () => {
   // Crawl from page 1 to 4.
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 5; i++) {
     const originLink = `${config.vnexpressKinhdoanhPage}/p${i + 1}`;
     fetchData(originLink).then((res) => {
       const html = res.data;
@@ -40,7 +40,7 @@ export const vnExpressKinhDoanhPage = () => {
 };
 
 export const vnExpressChungKhoanPage = () => {
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 5; i++) {
     const originLink = `${config.vnexpressKinhdoanhPage}/p${i + 1}`;
     fetchData(originLink).then((res) => {
       const html = res.data;
@@ -63,6 +63,3 @@ export const vnExpressChungKhoanPage = () => {
     });
   }
 };
-
-vnExpressKinhDoanhPage();
-vnExpressChungKhoanPage();

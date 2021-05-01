@@ -10,7 +10,7 @@ const pushData = async (data) => {
 };
 
 export const ndhNews = async (cateId) => {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 5; i++) {
     const news = await fetchData(originLink, {
       params: { data: { page: i, cate_id: cateId } }
     });
